@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+import re
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
@@ -11,6 +12,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+from models.__init__ import db_storage
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -29,7 +31,7 @@ class HBNBCommand(cmd.Cmd):
              'max_guest': int, 'price_by_night': int,
              'latitude': float, 'longitude': float
             }
-
+    
     def preloop(self):
         """Prints if isatty is false"""
         if not sys.__stdin__.isatty():
@@ -113,15 +115,25 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
-        """ Create an object of any class"""
-        if not args:
+    def do_create(self, arg):
+        """ Create a database object with given parameters
+            syntax: create <Class name> <key1=value1> <key2=value2> <key3=value3>...
+            types: String: "<value>" starts with double quote
+                   * any double quote inside value must be escaped with a (\)
+                   * all underscores (a_b) must be replaced with spaces (a b)
+                 Float: <unit>.<decimal> contains a dot
+                 Integer: <number> default case
+        """
+        args = arg.split(" ")
+        params = args[1:]
+        if not arg:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+
+        new_instance = HBNBCommand.classes[args[0]]()
         storage.save()
         print(new_instance.id)
         storage.save()
@@ -191,6 +203,42 @@ class HBNBCommand(cmd.Cmd):
             storage.save()
         except KeyError:
             print("** no instance found **")
+
+    def do_create_2(self, line):
+    """Usage: create <class> <key 1>=<value 2> <key 2>=<value 2> ...
+    Create a new class instance with given keys/values and print its id.
+    """
+    try:
+        if not line:
+            raise SyntaxError()
+        my_list = line.split(" ")
+
+        kwargs = {}
+        for i in range(1, len(my_list)):
+            key, value = tuple(my_list[i].split("="))
+            if value[0] == '"':
+                value = value.strip('"').replace("_", " ")
+            else:
+                try:
+                    value = eval(value)
+                except (SyntaxError, NameError):
+                    continue
+            kwargs[key] = value
+
+        if kwargs == {}:
+            obj = eval(my_list[0])()
+        else:
+            obj = eval(my_list[0])(**kwargs)
+            storage.new(obj)
+        print(obj.id)
+        obj.save()
+
+    except SyntaxError:
+        print("** class name missing **")
+    except NameError:
+        print("** class doesn't exist **")
+
+        
 
     def help_destroy(self):
         """ Help information for the destroy command """
