@@ -61,9 +61,8 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """Deletes an object from storage dictionary"""
-        if obj:
-            if obj in self.__objects.keys():
-                del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
-        else:
+        """Deletes an object from storage dictionary""" 
+        try:
+            del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
+        except (AttributeError, KeyError):
             pass
