@@ -9,6 +9,7 @@ import models
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
 
+
 Base = declarative_base()
 
 
@@ -66,16 +67,18 @@ class BaseModel:
 
     def to_dict(self):
         """Convert instance into dict format"""
-        dictionary = {}
-        dictionary.update(self.__dict__)
-        dictionary.update({'__class__':
-                          (str(type(self)).split('.')[-1]).split('\'')[0]})
-        dictionary['created_at'] = self.created_at.isoformat()
-        dictionary['updated_at'] = self.updated_at.isoformat()
-        if "_sa_instance_state" in dictionary.keys():
-            del dictionary["_sa_instance_state"]
-            # models.storage.save()   # GOD HAS DELIVERED ME FROM YOU !!!!!!
-        return dictionary
+        """Return a dictionary representation of the BaseModel instance.
+        Includes the key/value pair __class__ representing
+        the class name of the object.
+        """
+        dico = self.__dict__.copy()
+        dico["__class__"] = str(type(self).__name__)
+        dico["created_at"] = self.created_at.isoformat()
+        dico["updated_at"] = self.updated_at.isoformat()
+        dico.pop("_sa_instance_state", None)
+        return dico
+    
+    
 
     def delete(self):
         models.storage.delete(self)
