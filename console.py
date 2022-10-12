@@ -131,7 +131,6 @@ class HBNBCommand(cmd.Cmd):
             params = args[1:]
             kwargs = {}
 
-            params = params.split('=')
             for each in params:
                 kv = each.split('=')
                 val = kv[1].replace('"', '')
