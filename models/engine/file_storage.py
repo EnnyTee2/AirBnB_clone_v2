@@ -59,4 +59,4 @@ class FileStorage:
             if obj in FileStorage.__objects.keys():
                 del FileStorage.__objects[obj]
         else:
-            return
+            pass
