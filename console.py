@@ -12,7 +12,6 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-from models.__init__ import db_storage
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -124,24 +123,42 @@ class HBNBCommand(cmd.Cmd):
                  Float: <unit>.<decimal> contains a dot
                  Integer: <number> default case
         """
-        args = arg.split(" ")
-        params = args[1:]
-        if not arg:
-            print("** class name missing **")
-            return
-        elif args[0] not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
+        try:
+            if not arg:
+                print("** class name missing **")
+                return
+            args = arg.split(" ")
+            params = args[1:]
+            kwargs = {}
 
-        new_instance = HBNBCommand.classes[args[0]]()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
+            for each in params:
+                kv = each.split('=')
+                val = kv[1].replace('"', '')
+                val.replace('_', ' ')
+                try:
+                    val = eval(val)
+                except (SyntaxError, NameError):
+                    continue
+                kwargs[kv[0]] = val
+
+            if kwargs == {}:
+                new_instance = eval(args[0])()
+            else:
+                new_instance = eval(args[0])(**kwargs)
+                storage.new(new_instance)
+            print(new_instance.id)
+            storage.save()
+            
+        except SyntaxError:
+            print("** class name missing **")
+        except NameError:
+            print("** class doesn't exist **")
 
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
-        print("[Usage]: create <className>\n")
+        print("[Usage]: create <Class name> <key1=value1> \
+        <key2=value2> <key3=value3>...\n")
 
     def do_show(self, args):
         """ Method to show an individual object """
@@ -203,42 +220,6 @@ class HBNBCommand(cmd.Cmd):
             storage.save()
         except KeyError:
             print("** no instance found **")
-
-    def do_create_2(self, line):
-    """Usage: create <class> <key 1>=<value 2> <key 2>=<value 2> ...
-    Create a new class instance with given keys/values and print its id.
-    """
-    try:
-        if not line:
-            raise SyntaxError()
-        my_list = line.split(" ")
-
-        kwargs = {}
-        for i in range(1, len(my_list)):
-            key, value = tuple(my_list[i].split("="))
-            if value[0] == '"':
-                value = value.strip('"').replace("_", " ")
-            else:
-                try:
-                    value = eval(value)
-                except (SyntaxError, NameError):
-                    continue
-            kwargs[key] = value
-
-        if kwargs == {}:
-            obj = eval(my_list[0])()
-        else:
-            obj = eval(my_list[0])(**kwargs)
-            storage.new(obj)
-        print(obj.id)
-        obj.save()
-
-    except SyntaxError:
-        print("** class name missing **")
-    except NameError:
-        print("** class doesn't exist **")
-
-        
 
     def help_destroy(self):
         """ Help information for the destroy command """
