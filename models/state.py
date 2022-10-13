@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
 
-from sqlalchemy import Column, String
-from sqlalchemy.orm import relationship
-from os import getenv
 import models
+from os import getenv
+from models.base_model import Base
+from models.base_model import BaseModel
 from models.city import City
-from models.base_model import BaseModel, Base
+from sqlalchemy import Column
+from sqlalchemy import String
+from sqlalchemy.orm import relationship
 
 
 class State(BaseModel, Base):
@@ -29,12 +31,10 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """Get a list of all related City objects."""
-            _cities = []
-
-            all_cities = models.storage.all(City)
-
-            for city_key in all_cities:
-                if all_cities[city_key].state_id == self.id:
-                    _cities.append(all_cities[city_key].state_id)
+            city_list = []
+            for city in list(models.storage.all(City).values()):
+                if city.state_id == self.id:
+                    city_list.append(city)
+            return city_list
 
             return _cities
