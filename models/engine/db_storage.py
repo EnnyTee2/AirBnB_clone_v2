@@ -17,7 +17,7 @@ from models.review import Review
 
 
 class DBStorage:
-   """Represents a database storage engine.
+    """Represents a database storage engine.
     Attributes:
         __engine (sqlalchemy.Engine): The working SQLAlchemy engine.
         __session (sqlalchemy.Session): The working SQLAlchemy session.
@@ -25,8 +25,10 @@ class DBStorage:
 
     __engine = None
     __session = None
-
-    self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".
+   
+    def __init__(self):
+        """Initializes a new DBStorage instance."""
+        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".
                                       format(getenv("HBNB_MYSQL_USER"),
                                              getenv("HBNB_MYSQL_PWD"),
                                              getenv("HBNB_MYSQL_HOST"),
