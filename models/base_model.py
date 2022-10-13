@@ -57,7 +57,6 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self):
-        """Convert instance into dict format"""
         """Return a dictionary representation of the BaseModel instance.
         Includes the key/value pair __class__ representing
         the class name of the object.
@@ -70,4 +69,5 @@ class BaseModel:
         return dico
 
     def delete(self):
+        """Delete the current instance from storage."""
         models.storage.delete(self)
