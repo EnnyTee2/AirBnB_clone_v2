@@ -16,13 +16,17 @@ from models.review import Review
 
 
 class DBStorage:
-    """ creates a db storage engine"""
+   """Represents a database storage engine.
+    Attributes:
+        __engine (sqlalchemy.Engine): The working SQLAlchemy engine.
+        __session (sqlalchemy.Session): The working SQLAlchemy session.
+    """
+
     __engine = None
     __session = None
-    classes = ["State"]
 
     def __init__(self):
-        """ create engine"""
+        """ initialize a new DB storage engine"""
         user = getenv("HBNB_MYSQL_USER")
         pwd = getenv("HBNB_MYSQL_PWD")
         host = getenv("HBNB_MYSQL_HOST")
@@ -38,41 +42,48 @@ class DBStorage:
 
         
     def all(self, cls=None):
-        obj_dict = {}
+        """Query on the curret database session all objects of the given class.
+        If cls is None, queries all types of objects.
+        Return:
+            Dict of queried classes in the format <class name>.<obj id> = obj.
+        """
 
         if cls:
-            if isinstance(cls, str):
+            if type(cls) == str:
                 cls = eval(cls)
-                
-            if cls.__name__ in DBStorage.classes:
-                query = self.__session.query(cls).all()
-
-                for obj in query:
-                    key = f"{type(obj).__name__}.{obj.id}"
-                    obj_dict.update({key: obj})
+            obj = self.__session.query(State)
         else:
-            for cls_ in DBStorage.classes:
-                query = self.__session.query(eval(cls_)).all()
+            obj = self.__session.query(State).all()
+            obj.extend(self.__session.query(City).all())
+            obj.extend(self.__session.query(User).all())
+            obj.extend(self.__session.query(Place).all())
+            obj.extend(self.__session.query(Review).all())
+            obj.extend(self.__session.query(Amenity).all())
+        obj_dico = {"{}.{}".format(type(x).__name__, x.id): x for o in obj}
 
-                for obj in query:
-                    key = f"{type(obj).__name__}.{obj.id}"
-                    obj_dict.update({key: obj})
-
-        return obj_dict
+        return obj_dico
 
     def new(self, obj):
-        if type(obj).__name__ in DBStorage.classes:
-            self.__session.add(obj)
+        """Add obj to the current database session."""
+        self.__session.add(obj)
 
     def save(self):
+        """Commit all changes to the current database session."""
         self.__session.commit()
 
     def delete(self, obj=None):
-        if obj and type(obj).__name__ in DBStorage.classes:
+        """Delete obj from the current database session."""
+        if obj:
             self.__session.delete(obj)
 
     def reload(self):
+        """Create all tables in the database and initialize a new session."""
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        """Close the working SQLAlchemy session."""
+        self.__session.close()
