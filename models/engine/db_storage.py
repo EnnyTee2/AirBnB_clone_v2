@@ -44,7 +44,7 @@ class DBStorage:
             Dict of queried classes in the format <class name>.<obj id> = obj.
         """
 
-        if cls:
+        if cls is not None:
             if type(cls) == str:
                 cls = eval(cls)
             obj = self.__session.query(State)
@@ -55,6 +55,7 @@ class DBStorage:
             obj.extend(self.__session.query(Place).all())
             obj.extend(self.__session.query(Review).all())
             obj.extend(self.__session.query(Amenity).all())
+
         obj_dico = {"{}.{}".format(type(x).__name__, x.id): x for o in obj}
 
         return obj_dico
@@ -69,7 +70,7 @@ class DBStorage:
 
     def delete(self, obj=None):
         """Delete obj from the current database session."""
-        if obj:
+        if obj is not None:
             self.__session.delete(obj)
 
     def reload(self):
