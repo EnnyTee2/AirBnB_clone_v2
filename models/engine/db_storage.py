@@ -50,11 +50,11 @@ class DBStorage:
             obj = self.__session.query(State)
         else:
             obj = self.__session.query(State)
-            obj.extend(self.__session.query(City)
-            obj.extend(self.__session.query(User)
-            obj.extend(self.__session.query(Place)
-            obj.extend(self.__session.query(Review)
-            obj.extend(self.__session.query(Amenity)
+            obj.extend(self.__session.query(City).all())
+            obj.extend(self.__session.query(User).all())
+            obj.extend(self.__session.query(Place).all())
+            obj.extend(self.__session.query(Review).all())
+            obj.extend(self.__session.query(Amenity).all())
         obj_dico = {"{}.{}".format(type(x).__name__, x.id): x for o in obj}
 
         return obj_dico
