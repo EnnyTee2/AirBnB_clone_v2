@@ -3,7 +3,7 @@
 
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-
+from os import getenv
 import models
 from models.city import City
 from models.base_model import BaseModel, Base
