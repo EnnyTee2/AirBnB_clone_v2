@@ -142,10 +142,9 @@ class HBNBCommand(cmd.Cmd):
         new_instance.save()
         print(new_instance.id)
         storage.save()
-        
 
     def help_create(self):
-        """ Help information for the create method """
+        """Help information for the create method"""
         print("Creates a class of any type")
         print("[Usage]: create <className>\n")
 
@@ -218,10 +217,10 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
         print_list = []
-
+ 
         args = args.split(" ")
 
-        objects = storage.all() #
+        objects = storage.all()
 
         if args[0] == "":
             for obj in objects.values():
