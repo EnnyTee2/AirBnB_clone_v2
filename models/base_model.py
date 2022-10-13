@@ -20,38 +20,30 @@ class BaseModel:
         String(60),
         primary_key=True,
         unique=True,
-        nullable=False,
-        default=str(uuid.uuid4())
-    )
+        nullable=False)
 
     created_at = Column(
         DateTime,
         nullable=False,
-        default=datetime.utcnow()
-    )
+        default=datetime.utcnow())
 
     updated_at = Column(
         DateTime,
         nullable=False,
-        default=datetime.utcnow()
-    )
+        default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
+        
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.utcnow()
+        self.updated_at = datetime.utcnow()
         if kwargs:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if key != "__class__":
                     setattr(self, key, value)
-            
-        else:
-            self.id = str(uuid.uuid4())
-            self.created_at = self.updated_at = datetime.now()
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -60,7 +52,6 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        from models import storage
         self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
@@ -77,9 +68,6 @@ class BaseModel:
         dico["updated_at"] = self.updated_at.isoformat()
         dico.pop("_sa_instance_state", None)
         return dico
-    
-    
 
     def delete(self):
         models.storage.delete(self)
-        models.storage.save()
