@@ -32,3 +32,4 @@ location /hbnb_static {
 }" | sudo tee -a  /etc/nginx/nginx.conf
 
 service nginx reload
+service nginx restart
