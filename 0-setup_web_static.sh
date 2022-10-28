@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 # Bash script that sets up the web servers for the deployment of web_static
 
-# Install nginx if not installed
-if [ $(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed") -eq 0 ];
-then
-  apt update
-  apt install -y nginx
-fi
+
+apt update
+apt install -y nginx
 
 # making required directories
 mkdir -p /data;
@@ -35,5 +32,3 @@ chown -R ubuntu:ubuntu /data
 sed -i '39 i\ \tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}\n' /etc/nginx/sites-enabled/default
 
 sudo service nginx restart
-
-
