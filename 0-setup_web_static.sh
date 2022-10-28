@@ -32,7 +32,6 @@ sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 
 # Update the Nginx configuration file to serve the specified content
-sudo chmod 755 /etc/nginx/sites-available/default
 printf %s "server {
   listen 80;
   listen [::]:80;
@@ -44,7 +43,7 @@ printf %s "server {
   location /hbnb_static {
     alias /data/web_static/current/;
   }
-}" > /etc/nginx/sites-available/default
+}" | sudo tee /etc/nginx/sites-enabled/default
 
 sudo service nginx reload
 sudo service nginx restart
