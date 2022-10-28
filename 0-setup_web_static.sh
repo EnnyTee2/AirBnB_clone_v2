@@ -29,7 +29,7 @@ printf %s "<html>
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 # Giving ownership of the /data/ folder to the ubuntu user AND group
-sudo chown -R ubuntu:ubuntu /data/
+sudo chown -R ubuntu:ubuntu /data
 
 # Update the Nginx configuration file to serve the specified content
 printf %s "server {
