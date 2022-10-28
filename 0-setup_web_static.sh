@@ -31,20 +31,15 @@ ln -s /data/web_static/releases/test/ /data/web_static/current
 chown -r ubuntu:ubuntu /data/
 
 # Update the Nginx configuration file to serve the specified content
-echo "\
-location /hbnb_static {
-    alias /data/web_static/current/;
-    autoindex off;
-}" | sudo tee -a  /etc/nginx/nginx.conf
-
-service nginx reload
-service nginx restart
-
 printf %s "server {
   root /data/web_static/current/;
+  index index.html
   
   location /hbnb_static {
     alias /data/web_static/current/;
-    autoindex off;
   }
-} | sudo tee -a  /etc/nginx/nginx.conf
+} > /etc/nginx/sites-available/default
+
+# reload & restart nginx
+service nginx reload
+service nginx restart
