@@ -26,7 +26,7 @@ printf %s "<html>
  " | sudo tee /data/web_static/releases/test/index.html
 
 # Create the specified symbolic link
-sudo ln -sf /data/web_static/releases/test /data/web_static/current
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 # Giving ownership of the /data/ folder to the ubuntu user AND group
 sudo chown -R ubuntu:ubuntu /data/
