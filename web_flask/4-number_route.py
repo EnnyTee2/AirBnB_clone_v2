@@ -20,28 +20,28 @@ def hello():
 
 
 @app.route('/hbnb', strict_slashes=False)
-def hello_hbnb():
+def hbnb():
     """Displays 'HBNB'"""
     return "HBNB"
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def hello_c():
+def c_text():
     """ Displays 'C ' followed by <text>"""
     return "C {}".format(text.replace('_', ' '))
 
 
 @app.route("/python", strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def hello_python(text='is cool'):
+def python_text(text='is cool'):
     """ Displays 'Python ' followed by <text>"""
     return "Python {}".format(text.replace('_', ' '))
 
 
 @app.route('/number/<int: n>', strict_slashes=False)
-def hello_number(n):
+def number_int(n):
     """ Displays 'n is a number' only if n is an integer"""
-    return "{} is a number".format(n)
+    return "{:d} is a number".format(n)
 
 
 if __name__ == "__main__":
