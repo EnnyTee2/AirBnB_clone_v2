@@ -12,19 +12,19 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@app.route('/')
-def hello(strict_slashes=False):
+@app.route('/', strict_slashes=False)
+def hello():
     """Displays 'Hello HBNB!'"""
     return "Hello HBNB!"
 
 
-@app.route('/hbnb')
-def hello_hbnb(strict_slashes=False):
+@app.route('/hbnb', strict_slashes=False)
+def hello_hbnb():
     """Displays 'HBNB'"""
     return "HBNB"
 
 
-@app.route('/c/<text>')
+@app.route('/c/<text>', strict_slashes=False)
 def hello_c(text, strict_slashes=False):
     """ Displays 'C ' followed by <text>"""
     return "C {}".format(text.replace('_', ' '))
