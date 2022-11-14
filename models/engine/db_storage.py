@@ -38,10 +38,12 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """Query the current database session for all objects of the given class.
-        If cls is None, it queries all types of objects.
+        """Query the current database session
+            for all objects of the given class.
+            If cls is None, it queries all types of objects.
         Return:
-            Dictionary of queried classes in the format <class name>.<obj id> = obj.
+            Dictionary of queried classes in
+            the format <class name>.<obj id> = obj.
         """
         if cls is None:
             objs = self.__session.query(State).all()
