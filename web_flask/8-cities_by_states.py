@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """ Starts a simple Flask web app.
     The app listens on 0.0.0.0, port 5000.
     Routes:
