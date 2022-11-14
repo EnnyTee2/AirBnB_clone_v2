@@ -39,7 +39,7 @@ def hello_python(text='is cool'):
 
 
 @app.route('/number/<int: n>', strict_slashes=False)
-def hello_c(n, strict_slashes=False):
+def hello_number(n, strict_slashes=False):
     """ Displays 'n is a number' only if n is an integer"""
     return "{} is a number".format(n)
 
