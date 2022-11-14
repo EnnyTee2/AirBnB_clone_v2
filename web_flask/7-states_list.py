@@ -10,55 +10,24 @@
 """
 from flask import Flask
 from flask import render_template
+from models import storage
+
 
 app = Flask(__name__)
 
 
-@app.route('/', strict_slashes=False)
-def hello():
-    """Displays 'Hello HBNB!'"""
-    return "Hello HBNB!"
+@app.route('/states_list', strict_slashes=False)
+def list_states():
+    states = storage.all('States')
+    return render_template('7-states_list.html', states=states)
 
 
-@app.route('/hbnb', strict_slashes=False)
-def hbnb():
-    """Displays 'HBNB'"""
-    return "HBNB"
-
-
-@app.route('/c/<text>', strict_slashes=False)
-def c_text():
-    """ Displays 'C ' followed by <text>"""
-    return "C {}".format(text.replace('_', ' '))
-
-
-@app.route("/python", strict_slashes=False)
-@app.route('/python/<text>', strict_slashes=False)
-def python_text(text='is cool'):
-    """ Displays 'Python ' followed by <text>"""
-    return "Python {}".format(text.replace('_', ' '))
-
-
-@app.route('/number/<int:n>', strict_slashes=False)
-def number_int(n):
-    """ Displays 'n is a number' only if n is an integer"""
-    return "{} is a number".format(n)
-
-
-@app.route('/number_template/<int:n>', strict_slashes=False)
-def html_number_int(n):
-    """ Displays an html page only if n is an integer"""
-    return render_template('5-number.html', n=n)
-
-
-@app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
-def html_number_div(n):
-    """ Displays an html page only if n is an integer"""
-    if (n % 2 == 0):
-        type = 'even'
-    else:
-        type = 'odd'
-    return render_template('6-number_odd_or_even.html', n=n, type=type)
+@app.teardown_appcontext
+def teardown():
+    """Method to remove current SQLAlchemy session
+       after each request
+    """
+    storage.close()
 
 
 if __name__ == "__main__":
