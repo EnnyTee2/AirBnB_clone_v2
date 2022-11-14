@@ -23,11 +23,11 @@ def hello_hbnb(strict_slashes=False):
     return "HBNB"
 
 
-@app.route('/c/<text>', strict_slashes=False)
-def hello_text():
+@app.route('/c/<text>')
+def hello_text(strict_slashes=False):
     """ Displays 'C ' followed by <text>"""
-    texter = text.replace("_", " ")
-    return "C {}".format(texter)
+    text = text.replace('_', ' ')
+    return "C {}".format(text)
 
 
 if __name__ == "__main__":
