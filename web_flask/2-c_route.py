@@ -26,7 +26,7 @@ def hello_bnb(strict_slashes=False):
 @app.route('/c/<text>')
 def hello_text(strict_slashes=False):
     """ Displays 'C ' followed by <text>"""
-    texter = text.replace('_', ' ')
+    texter = text.replace("_", " ")
     return "C {}".format(texter)
 
 
