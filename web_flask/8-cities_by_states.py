@@ -14,10 +14,10 @@ app = Flask(__name__)
 
 
 @app.route('/cities_by_states', strict_slashes=False)
-def list_cities():
-    """Displays and HTML page with a list of all
-    objects stored in the Storage (DBStorage or FileStorage)
-    where the resulting state list is sorted by name.
+def cities_by_states():
+    """ Displays and HTML page with a list of all
+        objects stored in the Storage (DBStorage or FileStorage)
+        where the resulting state list is sorted by name.
     """
     states = storage.all('State')
     return render_template('8-cities_by_states.html', states=states)
