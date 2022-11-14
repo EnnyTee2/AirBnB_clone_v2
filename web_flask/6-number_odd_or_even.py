@@ -58,7 +58,7 @@ def html_number_div(n):
         type = 'even'
     else:
         type = 'odd'
-    return render_template('6-number_odd_or_even.html', n=n, type=type)
+    return render_template('6-number_odd_or_even.html', n=n, type)
 
 
 if __name__ == "__main__":
