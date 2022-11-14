@@ -47,7 +47,7 @@ class DBStorage:
         if cls is not None:
             if type(cls) == str:
                 cls = eval(cls)
-            obj = self.__session.query(State)
+            obj = self.__session.query(cls)
         else:
             obj = self.__session.query(State)
             obj.extend(self.__session.query(City).all())
