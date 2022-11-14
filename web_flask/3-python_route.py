@@ -30,9 +30,9 @@ def hello_c(text, strict_slashes=False):
     return "C {}".format(text.replace('_', ' '))
 
 
-@app.route("/python")
-@app.route('/python/<text>')
-def hello_python(text='is cool', strict_slashes=False):
+@app.route("/python", strict_slashes=False)
+@app.route('/python/<text>', strict_slashes=False)
+def hello_python(text='is cool'):
     """ Displays 'Python ' followed by <text>"""
     return "Python {}".format(text.replace('_', ' '))
 
