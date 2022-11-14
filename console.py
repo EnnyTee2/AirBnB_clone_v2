@@ -92,11 +92,14 @@ class HBNBCommand(cmd.Cmd):
         return stop
 
     def do_quit(self, command):
-        """ Method to exit the HBNB console"""
+        """ Method to exit the HBNB console
+            Also ensures all the required SQL tables
+            have been created
+        """
         exit()
 
     def help_quit(self):
-        """ Prints the help documentation for quit  """
+        """ Prints the help documentation for quit"""
         print("Exits the program with formatting\n")
 
     def do_EOF(self, arg):
