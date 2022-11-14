@@ -24,7 +24,7 @@ def hello_hbnb(strict_slashes=False):
 
 
 @app.route('/c/<text>')
-def hello_text(strict_slashes=False, text):
+def hello_text(text, strict_slashes=False):
     """ Displays 'C ' followed by <text>"""
     return "C {}".format(text.replace('_', ' '))
 
