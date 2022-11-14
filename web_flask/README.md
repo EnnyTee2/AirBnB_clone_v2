@@ -2,6 +2,4 @@
 
 <img
   src="0x04-Clone_web_framework.png"
-  alt="Alt text"
-  title="Optional title"
   style="display: inline-block; margin: 0 auto; max-width: 300px">
