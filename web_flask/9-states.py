@@ -3,8 +3,7 @@
     The app listens on 0.0.0.0, port 5000.
     Routes:
         /states: isplay a HTML page: (inside the tag BODY)
-        /states/<id>: display a HTML page 
-        
+        /states/<id>: display a HTML page
 """
 from flask import Flask
 from flask import render_template
