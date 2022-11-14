@@ -18,13 +18,13 @@ def hello(strict_slashes=False):
 
 
 @app.route('/hbnb')
-def hello_bnb(strict_slashes=False):
+def hello_hbnb(strict_slashes=False):
     """Displays 'HBNB'"""
     return "HBNB"
 
 
-@app.route('/c/<text>')
-def hello_text(strict_slashes=False):
+@app.route('/c/<text>', strict_slashes=False)
+def hello_text():
     """ Displays 'C ' followed by <text>"""
     texter = text.replace("_", " ")
     return "C {}".format(texter)
