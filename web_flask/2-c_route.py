@@ -27,7 +27,7 @@ def hello_bnb(strict_slashes=False):
 def hello_text(strict_slashes=False):
     """ Displays 
     """
-    return f"C {text.replace('_', ' ')}"
+    return "C {}".format(text.replace('_', ' '))
 
 
 if __name__ == "__main__":
